@@ -44,7 +44,15 @@ const FeaturedProducts = () => {
   const fetchFeaturedProducts = async () => {
     try {
       const response = await axios.get('/api/products/featured');
-      setProducts(response.data.slice(0, 8));
+      console.log('Featured API Response:', response.data);
+      
+      // Ensure data is an array before using .map()
+      if (Array.isArray(response.data)) {
+        setProducts(response.data.slice(0, 8));
+      } else {
+        console.error('API did not return an array:', response.data);
+        throw new Error('Invalid data format from API');
+      }
     } catch (error) {
       console.error('Error fetching featured products:', error);
       // Fallback mock data for demo

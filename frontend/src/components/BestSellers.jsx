@@ -18,9 +18,23 @@ const BestSellers = () => {
   const fetchBestsellers = async () => {
     try {
       const response = await axios.get('/api/products/bestsellers');
-      setProducts(response.data);
+      console.log('Bestsellers API Response:', response.data);
+      
+      // Ensure data is an array before using .map()
+      if (Array.isArray(response.data)) {
+        setProducts(response.data);
+      } else {
+        console.error('API did not return an array:', response.data);
+        throw new Error('Invalid data format from API');
+      }
     } catch (error) {
       console.error('Error fetching bestsellers:', error);
+      // Fallback mock data for demo
+      setProducts([
+        { _id: '1', name: 'Best Seller 1', price: 89.99, images: ['https://via.placeholder.com/300'] },
+        { _id: '2', name: 'Best Seller 2', price: 129.99, images: ['https://via.placeholder.com/300'] },
+        { _id: '3', name: 'Best Seller 3', price: 69.99, images: ['https://via.placeholder.com/300'] },
+      ]);
     } finally {
       setLoading(false);
     }
