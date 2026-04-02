@@ -56,10 +56,18 @@ const Shop = () => {
       params.append('page', currentPage);
 
       const response = await axios.get(`/api/products?${params.toString()}`);
-      setProducts(response.data.products);
-      setTotalPages(response.data.pages);
+      console.log('Shop API Response:', response.data);
+      
+      // Safe data handling with fallbacks
+      const productsData = response.data?.products || response.data || [];
+      const pagesData = response.data?.pages || response.data?.totalPages || 1;
+      
+      setProducts(Array.isArray(productsData) ? productsData : []);
+      setTotalPages(Number(pagesData) || 1);
     } catch (error) {
       console.error('Error fetching products:', error);
+      setProducts([]);
+      setTotalPages(1);
     } finally {
       setLoading(false);
     }
