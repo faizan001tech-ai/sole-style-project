@@ -47,6 +47,13 @@ const FeaturedProducts = () => {
       setProducts(response.data.slice(0, 8));
     } catch (error) {
       console.error('Error fetching featured products:', error);
+      // Fallback mock data for demo
+      setProducts([
+        { _id: '1', name: 'Demo Product 1', price: 99.99, images: ['https://via.placeholder.com/300'] },
+        { _id: '2', name: 'Demo Product 2', price: 149.99, images: ['https://via.placeholder.com/300'] },
+        { _id: '3', name: 'Demo Product 3', price: 79.99, images: ['https://via.placeholder.com/300'] },
+        { _id: '4', name: 'Demo Product 4', price: 199.99, images: ['https://via.placeholder.com/300'] },
+      ]);
     } finally {
       setLoading(false);
     }
